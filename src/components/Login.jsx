@@ -1,15 +1,24 @@
 import React, { useRef, useState } from 'react'
 import Header from './Header'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { checkValidation } from '../utils/checkValidation';
+import {  createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { auth } from '../utils/firebase';
+import { useDispatch } from 'react-redux';
+import { addUser, removeUser } from '../utils/userSlice';
 
 const Login = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const[signUpForm, setSignUpForm]= useState(false);
   const[errorMessage, setErrorMessage] = useState("");
   
+  const name= useRef(null);
   const email= useRef(null);
   const password= useRef(null);
+
   
   const handleValidation=()=>{
     
@@ -17,7 +26,88 @@ const Login = () => {
     const msg= checkValidation(email.current.value,password.current.value);
     setErrorMessage(msg);
    // validation done now check for 
-   
+    if(msg) return;
+
+    //sign up and sign in login
+
+    if(signUpForm){
+
+      createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
+      .then((userCredential) => {
+        // Signed up 
+ 
+        const user = userCredential.user;
+        updateProfile(user, {
+
+          displayName: name.current.value,
+          // Profile updated!
+           
+        }).then(() => {
+         
+          
+          const{uid, email, displayName} = auth.currentUser;
+          console.log(displayName);
+          dispatch(addUser({uid:uid,email:email, displayName:displayName}));
+         
+          navigate("/browse")
+            
+          
+          // ...
+        }).catch((error) => {
+          // An error occurred
+          setErrorMessage(error.message);
+           navigate("/")
+          // ...
+        });
+       
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMessage(errorCode+ " - " +errorMessage);
+        dispatch(removeUser());
+        navigate("/");
+        // ..
+      });
+
+    }
+    else
+    {
+      signInWithEmailAndPassword(auth, email.current.value,password.current.value)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+
+        // ...
+        updateProfile(user, {
+          displayName: name.current.value,
+        }).then(() => {
+          // Profile updated!
+          const{uid, email, displayName,token} = auth.currentUser;
+          dispatch(addUser({uid:uid,email:email.current.value, displayName:displayName,token:token}));
+          navigate("/browse")
+          // ...
+        }).catch((error) => {
+          // An error occurred
+          console.log(error)
+          // ...
+        });
+
+        
+        console.log(user);
+        navigate("/browse");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        setErrorMessage(errorCode+ " - "+ errorMessage);
+        navigate("/");
+        
+      });
+
+    }
+    
     
       
   }
@@ -48,6 +138,7 @@ const Login = () => {
               signUpForm? (<input
               className='text-white text-lg w-[300px] bg-gray-700 p-3 ml-9 m-3 rounded-md '
               type='text'
+              ref={name}
               placeholder='name'
             />):(null)
             }
