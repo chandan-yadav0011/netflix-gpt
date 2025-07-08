@@ -77,22 +77,6 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-
-        // ...
-        updateProfile(user, {
-          displayName: name.current.value,
-        }).then(() => {
-          // Profile updated!
-          const{uid, email, displayName,token} = auth.currentUser;
-          dispatch(addUser({uid:uid,email:email.current.value, displayName:displayName,token:token}));
-          navigate("/browse")
-          // ...
-        }).catch((error) => {
-          // An error occurred
-          console.log(error)
-          // ...
-        });
-
         
         console.log(user);
         navigate("/browse");
