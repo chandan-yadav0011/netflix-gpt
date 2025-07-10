@@ -7,11 +7,11 @@ const VideoContainer = ({movie_id}) => {
    
   useMovieTrailer(movie_id);
   const trailerData= useSelector((store)=>store.movies.nowPlayingTrailer);
-
+  
 
 
   return (
-    <div>
+    <div >
         <iframe
             className="w-screen aspect-video"
             src={"https://www.youtube.com/embed/"+trailerData?.key+"?&autoplay=1&mute=1" }
