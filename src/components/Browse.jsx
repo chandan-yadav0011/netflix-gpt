@@ -6,12 +6,15 @@ import SecondaryContainer from './SecondaryContainer';
 import usePopularMovies from '../hooks/usePopularMovies';
 import useTopRatedMovies from '../hooks/useTopRatedMovies';
 import useUpcomingdMovies from '../hooks/useUpcomingMovies';
+import GPTSearch from './GPTSearch';
 
 
 
 const Browse = () => {
   
-  
+  const isGPTSearchTrue = useSelector((store)=>store.gptSearch.isGPTSearchTrue);
+ 
+
   useMoviesData();
   usePopularMovies();
   useTopRatedMovies();
@@ -23,8 +26,12 @@ const Browse = () => {
   return (
     <div>
     <Header/>
-    <MainContainer/>
-    <SecondaryContainer/>
+    {isGPTSearchTrue ?<GPTSearch/>: 
+      <>
+      <MainContainer/>
+      <SecondaryContainer/>
+    </>}
+   
     </div>
     
   )
