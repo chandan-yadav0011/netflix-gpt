@@ -28,4 +28,4 @@ export const SUPPORTED_LANGUAGES= [
   }
 ]
 
-
+export const GEMINI_API_KEY= "AIzaSyBCl9hJ_Vck58FWIRpcsTikqN1dV0xH1Ks"

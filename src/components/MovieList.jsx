@@ -5,6 +5,8 @@ const MovieList = ({title,movies}) => {
 
   //console.log(movies?.nowPlayingMovies);
  // console.log(movies)
+
+  
   return (
 
     <div className='p-2 m-2   pt-5 text-white   '>
