@@ -11,14 +11,20 @@ const GPTSearchSuggestions = () => {
   if(!movieNames) return null;
 
   return (
-    <div className='absolute mt-[22%]  mt-8 flex justify-center p-4 m-4 bg-black text-white'>
-      <div className='relative'>
-        {movieNames &&movieNames.map((movieName,indx)=>(
-          <MovieList
-              key={movieName}
-              title={movieName}
-              movies={movieResults[indx]}
-          />
+
+    // <div className='w-full pl-2 bg-black'>
+    //   <div className='-mt-52 relative'>
+        
+    //   </div>
+    // </div>
+    <div className='absolute w-full mt-[25%]  mt-8 flex  p-4  bg-black text-white'>
+      <div className='relative w-full'>
+        {movieNames &&movieNames.map((movieName,indx)=>(  
+            <MovieList
+                key={movieName}
+                title={movieName}
+                movies={movieResults[indx]}
+            />
         ))}
       </div>
         

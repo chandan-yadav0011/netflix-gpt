@@ -9,7 +9,7 @@ const MovieList = ({title,movies}) => {
   
   return (
 
-    <div className='p-2 m-2   pt-5 text-white   '>
+    <div className='p-2 m-2  w-full  pt-5 text-white   '>
        
             
             <h1 className='ml-4 text-3xl py-2'>{title}</h1>
